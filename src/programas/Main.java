@@ -84,6 +84,7 @@ public class Main {
         nuevaPila.Apilar(5);
         nuevaPila.Apilar(7);
         nuevaPila.Apilar(9);
+
         //ContarPila(nuevaPila); // d) Contar los elementos de una Pila
         //SumarPila(nuevaPila);  // e) Sumar los elementos de una Pila
         //b) Copiar una Pila en otra (dejándola en el mismo orden que la original)
