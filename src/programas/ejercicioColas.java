@@ -1,13 +1,10 @@
 package programas;
-
 import api.ColaTDA;
-import api.PilaTDA;
 import implementaciones.ColaTF;
-import implementaciones.PilaTF;
+
+import java.util.Arrays;
 
 //A partir del TDA Cola definido, escribir distintos métodos que permitan
-
-//b) Invertir el contenido de una Cola (pueden usarse Pilas auxiliares)
 // c) Invertir el contenido de una Cola (NO pueden usarse Pilas auxiliares)
 // d) Determinar si el final de la Cola C1 coincide o no con la Cola C2.
 // e) Determinar si una Cola es capicúa o no. Para ser capicúa debe cumplir
@@ -21,14 +18,15 @@ public class ejercicioColas {
         ColaTDA copia = new ColaTF();
         copia.Inicializar();
         copiarCola(cola,copia);
-        InvertirCola(cola);
-       //imprime cola original
-        System.out.print("original: ");
-        while (!cola.ColaVacia()) {
-            System.out.print(cola.Primero() + " ");
-            cola.Desacolar();
-        }
+        System.out.print("Cola invertida: ");
+        System.out.println(Arrays.toString(InvertirCola(cola))); //se puede? imprime invertida
 
+       //imprime cola original
+       // System.out.println("original: ");
+       // while (!cola.ColaVacia()) {
+           // System.out.print(cola.Primero() + " ");
+            //cola.Desacolar();
+        //}
         //imprime cola copia
         System.out.print("copia: ");
         while (!copia.ColaVacia()) {
@@ -36,9 +34,7 @@ public class ejercicioColas {
             copia.Desacolar();
         }
     }
-
     public static void copiarCola(ColaTDA original,ColaTDA copia)  {
-
         ColaTDA colaIntermedia= new ColaTF();
         colaIntermedia.Inicializar();
 
@@ -53,40 +49,111 @@ public class ejercicioColas {
         }
     }
 
-    public static void InvertirCola(ColaTDA cola) {
-        ColaTDA invertida = new ColaTF();
-        invertida.Inicializar();
+    //b) Invertir el contenido de una Cola (pueden usarse Pilas auxiliares)
+    public static int[] InvertirCola(ColaTDA cola) {
+        ColaTDA intermedia = new ColaTF();
+        intermedia.Inicializar();
         int []vec;
         int largo=0;
         while (!cola.ColaVacia()) {
             //vector[largo] =cola.Primero();
-            invertida.Acolar(cola.Primero());
+            intermedia.Acolar(cola.Primero());
             largo += 1;
             cola.Desacolar();
         }
         vec= new int[largo]; //vector del largo de mi cola
-
-        for (int i = 0; i < vec.length ; i++)  {
-            vec[i] =invertida.Primero();
-            System.out.print(vec[i]+ "array ");
-            invertida.Desacolar();
+        while (largo!=0) {
+            vec[largo-1]=intermedia.Primero();
+            largo=largo-1;
+            intermedia.Desacolar();
         }
-        //for(int i =largo+1; i > 0; i--)
-        //{
-        // System.out.print(vec[i]+ "array ");
-        // System.out.println(i);
-        //}
+    return vec;
 
     }
 
+    // d) Determinar si el final de la Cola C1 coincide o no con la Cola C2.
+    public static void CompararUltimoIndice(ColaTDA colaUno, ColaTDA colaDos) {
+        int valorUno=0;
+        int valorDos=0;
+        String resultado;
+        while (!colaUno.ColaVacia()) {
+            valorUno=colaUno.Primero();
+            colaUno.Desacolar();
+        }
+        while (!colaDos.ColaVacia()) {
+            valorDos=colaDos.Primero();
+            colaDos.Desacolar();
+        }
+        if(valorDos == valorUno) {
+        System.out.print("El ultimo valor de ambas colas es igual");
+        }else{
+        System.out.print("El ultimo valor de ambas colas es distinto");
+        }
+    }
+
+    public static void CompararColasInvertidas(ColaTDA colaUno, ColaTDA colaDos) {
+        ColaTDA intermedia = new ColaTF();
+        System.out.print("Cola invertida 1: ");
+        int []cola1= InvertirCola(colaUno);
+        System.out.print(Arrays.toString(cola1));
+        int []cola2= MostrarColaArray(colaDos);
+
+    }
+
+    public static int ObtenerTamanioCola(ColaTDA cola) {
+        ColaTDA intermedia = new ColaTF();
+        intermedia.Inicializar();
+        int largo=0;
+        while (!cola.ColaVacia()) {
+            intermedia.Acolar(cola.Primero());
+            largo += 1;
+            cola.Desacolar();
+        }
+        return largo;
+    }
+
+    public static int[] MostrarColaArray(ColaTDA colaDos) {
+        ColaTDA intermedia = new ColaTF();
+        intermedia.Inicializar();
+        int []vec;
+        int largo=0;
+
+        while (!colaDos.ColaVacia()) {
+            intermedia.Acolar(colaDos.Primero());
+            largo += 1;
+            colaDos.Desacolar();
+        }
+        int i=0;
+        vec= new int[largo]; //vector del largo de mi cola
+
+        while (largo!=i) {
+            vec[i]=intermedia.Primero();
+            i++;
+            intermedia.Desacolar();
+        }
+       return vec;
+    }
+
     public static void main(String[] args) {
-        ColaTDA nuevaCola = new ColaTF();
-        nuevaCola.Inicializar();
-        nuevaCola.Acolar(1);
-        nuevaCola.Acolar(3);
-        nuevaCola.Acolar(5);
-        nuevaCola.Acolar(7);
-        nuevaCola.Acolar(9);
-        mostrarCola(nuevaCola);
+        ColaTDA colaUno = new ColaTF();
+        ColaTDA colaDos = new ColaTF();
+        colaUno.Inicializar();
+        colaDos.Inicializar();
+        //cola uno
+        colaUno.Acolar(1);
+        colaUno.Acolar(3);
+        colaUno.Acolar(5);
+        colaUno.Acolar(7);
+        colaUno.Acolar(9);
+
+        //cola dos
+        colaDos.Acolar(1);
+        colaDos.Acolar(3);
+        colaDos.Acolar(5);
+        colaDos.Acolar(7);
+        colaDos.Acolar(12);
+        // d) Determinar si el final de la Cola C1 coincide o no con la Cola C2.
+        //CompararUltimoIndice(colaUno, colaDos);
+        CompararColasInvertidas(colaUno, colaDos);
     }
 }
